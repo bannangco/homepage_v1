@@ -17,9 +17,6 @@ const nextConfig = {
   // Static export settings
   trailingSlash: true,
   distDir: '.next',
-  experimental: {
-    appDir: true,
-  },
 }
 
 module.exports = nextConfig;

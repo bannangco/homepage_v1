@@ -21,10 +21,6 @@
     ],
     "rewrites": [
       {
-        "source": "/announcements/**",
-        "destination": "/announcements/[id]/index.html"
-      },
-      {
         "source": "**",
         "destination": "/index.html"
       }
