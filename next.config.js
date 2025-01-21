@@ -14,6 +14,12 @@ const nextConfig = {
     NEXT_PUBLIC_FIREBASE_APP_ID: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
     NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
   },
+  // Static export settings
+  trailingSlash: true,
+  distDir: '.next',
+  experimental: {
+    appDir: true,
+  },
 }
 
 module.exports = nextConfig;

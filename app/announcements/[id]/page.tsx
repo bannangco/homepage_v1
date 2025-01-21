@@ -1,8 +1,24 @@
 import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { Announcement } from '@/types/announcement';
+import { Metadata } from 'next';
 
-export const revalidate = 60;
+// Define the correct types for Next.js App Router
+interface PageParams {
+  id: string;
+}
+
+interface PageProps {
+  params: PageParams;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const announcement = await getAnnouncement(params.id);
+  return {
+    title: `${announcement.title} - 반낭코`,
+    description: announcement.content.substring(0, 160),
+  };
+}
 
 async function getAnnouncement(id: string): Promise<Announcement> {
   const docRef = doc(db, 'announcements', id);
@@ -13,7 +29,8 @@ async function getAnnouncement(id: string): Promise<Announcement> {
   return { id: docSnap.id, ...docSnap.data() } as Announcement;
 }
 
-export default async function AnnouncementPage({ params }: { params: { id: string } }) {
+// Use the PageProps interface for the page component
+export default async function AnnouncementPage({ params }: PageProps) {
   const announcement = await getAnnouncement(params.id);
 
   return (
