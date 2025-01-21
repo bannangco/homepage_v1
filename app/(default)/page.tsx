@@ -1,14 +1,14 @@
 export const metadata = {
-  title: "Home - Open PRO",
-  description: "Page description",
+  title: "반낭코 - Bannangco",
+  description: "반낭코 공식 홈페이지",
 };
 
 import PageIllustration from "@/components/page-illustration";
 import Hero from "@/components/hero-home";
 import Workflows from "@/components/workflows";
 import Features from "@/components/features";
-import Testimonials from "@/components/testimonials";
-import Cta from "@/components/cta";
+import PastServices from "@/components/past-services";
+import Announcements from "@/components/announcements";
 
 export default function Home() {
   return (
@@ -16,9 +16,9 @@ export default function Home() {
       <PageIllustration />
       <Hero />
       <Workflows />
+      <PastServices />
       <Features />
-      <Testimonials />
-      <Cta />
+      <Announcements />
     </>
   );
 }
