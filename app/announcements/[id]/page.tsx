@@ -1,15 +1,22 @@
 import { db } from '@/lib/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { Announcement } from '@/types/announcement';
 import { Metadata } from 'next';
 
-interface PageProps {
-  params: {
-    id: string;
-  };
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateStaticParams() {
+  const announcementsRef = collection(db, 'announcements');
+  const snapshot = await getDocs(announcementsRef);
+  return snapshot.docs.map(doc => ({
+    id: doc.id,
+  }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const announcement = await getAnnouncement(params.id);
   return {
     title: `${announcement.title} - 반낭코`,
@@ -26,7 +33,7 @@ async function getAnnouncement(id: string): Promise<Announcement> {
   return { id: docSnap.id, ...docSnap.data() } as Announcement;
 }
 
-export default async function AnnouncementPage({ params }: PageProps) {
+export default async function AnnouncementPage({ params }: Props) {
   const announcement = await getAnnouncement(params.id);
 
   return (

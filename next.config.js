@@ -15,10 +15,7 @@ const nextConfig = {
     NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
   },
   // Handle dynamic routes in static export
-  trailingSlash: true,
-  generateStaticParams: async () => {
-    return [];
-  },
+  trailingSlash: true
 }
 
 module.exports = nextConfig;
