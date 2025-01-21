@@ -14,6 +14,11 @@ const nextConfig = {
     NEXT_PUBLIC_FIREBASE_APP_ID: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
     NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
   },
+  // Handle dynamic routes in static export
+  trailingSlash: true,
+  generateStaticParams: async () => {
+    return [];
+  },
 }
 
 module.exports = nextConfig;
