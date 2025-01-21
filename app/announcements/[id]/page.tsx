@@ -1,6 +1,11 @@
 import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { Announcement } from '@/types/announcement';
+import { Metadata } from 'next';
+
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
 
 export const dynamic = 'force-static';
 export const dynamicParams = true;
@@ -14,12 +19,18 @@ async function getAnnouncement(id: string): Promise<Announcement> {
   return { id: docSnap.id, ...docSnap.data() } as Announcement;
 }
 
-export default async function AnnouncementPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const announcement = await getAnnouncement(params.id);
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const announcement = await getAnnouncement(id);
+  return {
+    title: `${announcement.title} - 반낭코`,
+    description: announcement.content.substring(0, 160),
+  };
+}
+
+export default async function AnnouncementPage({ params }: PageProps) {
+  const { id } = await params;
+  const announcement = await getAnnouncement(id);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">

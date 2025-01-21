@@ -2,8 +2,14 @@ import { db } from '@/lib/firebase';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import Link from "next/link";
 import { Announcement } from '@/types/announcement';
+import { Metadata } from 'next';
 
-export const revalidate = 60; // Revalidate every minute
+export const metadata: Metadata = {
+  title: '공지사항 - 반낭코',
+  description: '반낭코 공지사항',
+};
+
+export const dynamic = 'force-static';
 
 async function getAnnouncements(): Promise<Announcement[]> {
   const announcementsRef = collection(db, 'announcements');
