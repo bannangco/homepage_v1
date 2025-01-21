@@ -8,26 +8,63 @@ export const metadata: Metadata = {
   description: '반낭코 공지사항',
 };
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+// Remove dynamic and revalidate exports since we're using client-side data fetching
+"use client";
 
-async function getAnnouncements(): Promise<Announcement[]> {
-  try {
-    const announcementsRef = collection(db, 'announcements');
-    const q = query(announcementsRef, orderBy('createdAt', 'desc'));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    })) as Announcement[];
-  } catch (error) {
-    console.error('Error fetching announcements:', error);
-    return [];
+import { useEffect, useState } from 'react';
+
+export default function AnnouncementsPage() {
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchAnnouncements() {
+      try {
+        const announcementsRef = collection(db, 'announcements');
+        const q = query(announcementsRef, orderBy('createdAt', 'desc'));
+        const snapshot = await getDocs(q);
+        const fetchedAnnouncements = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Announcement[];
+        setAnnouncements(fetchedAnnouncements);
+      } catch (err) {
+        console.error('Error fetching announcements:', err);
+        setError('공지사항을 불러오는 중 오류가 발생했습니다.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchAnnouncements();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+        <div className="mb-8">
+          <h1 className="text-3xl font-semibold text-gray-200">공지사항</h1>
+        </div>
+        <div className="text-center text-gray-400">
+          로딩 중...
+        </div>
+      </div>
+    );
   }
-}
 
-export default async function AnnouncementsPage() {
-  const announcements = await getAnnouncements();
+  if (error) {
+    return (
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+        <div className="mb-8">
+          <h1 className="text-3xl font-semibold text-gray-200">공지사항</h1>
+        </div>
+        <div className="rounded-md bg-red-500/10 p-4 text-red-400">
+          {error}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
