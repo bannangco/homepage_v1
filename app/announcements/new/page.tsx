@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { db, storage } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default function NewAnnouncementPage() {
   const router = useRouter();
@@ -16,22 +19,25 @@ export default function NewAnnouncementPage() {
 
     setIsSubmitting(true);
     try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("content", content);
+      let fileUrl = null;
+      let fileName = null;
+
       if (file) {
-        formData.append("file", file);
+        const storageRef = ref(storage, `announcements/${Date.now()}_${file.name}`);
+        await uploadBytes(storageRef, file);
+        fileUrl = await getDownloadURL(storageRef);
+        fileName = file.name;
       }
 
-      const response = await fetch("/api/announcements", {
-        method: "POST",
-        body: formData,
+      const docRef = await addDoc(collection(db, "announcements"), {
+        title,
+        content,
+        createdAt: serverTimestamp(),
+        fileUrl,
+        fileName,
       });
 
-      const data = await response.json();
-      if (data.success) {
-        router.push(`/announcements/${data.id}`);
-      }
+      router.push(`/announcements/${docRef.id}`);
     } catch (error) {
       console.error("Error creating announcement:", error);
     }
