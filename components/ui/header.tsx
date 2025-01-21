@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Logo from "./logo";
 
 export default function Header() {
@@ -11,6 +12,19 @@ export default function Header() {
           <div className="flex flex-1 items-center">
             <Logo />
           </div>
+          {/* Navigation */}
+          <nav>
+            <ul className="flex items-center gap-2">
+              <li>
+                <Link
+                  href="/announcements"
+                  className="btn-sm relative bg-gradient-to-b from-gray-800 to-gray-800/60 bg-[length:100%_100%] bg-[bottom] py-[5px] text-gray-300 before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-transparent before:[background:linear-gradient(to_right,theme(colors.gray.800),theme(colors.gray.700),theme(colors.gray.800))_border-box] before:[mask-composite:exclude_!important] before:[mask:linear-gradient(white_0_0)_padding-box,_linear-gradient(white_0_0)] hover:bg-[length:100%_150%]"
+                >
+                  회사 공고
+                </Link>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </header>

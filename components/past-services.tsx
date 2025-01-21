@@ -22,14 +22,14 @@ export default function PastServices() {
           </div>
 
           {/* Past service */}
-          <div className="mx-auto max-w-3xl">
+          <div className="mx-auto max-w-sm">
             <div className="overflow-hidden rounded-2xl bg-gray-800/40 p-px before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:border before:border-transparent before:[background:linear-gradient(to_right,theme(colors.gray.800),theme(colors.gray.700),theme(colors.gray.800))_border-box] before:[mask-composite:exclude_!important] before:[mask:linear-gradient(white_0_0)_padding-box,_linear-gradient(white_0_0)]">
               <div className="relative overflow-hidden rounded-2xl bg-gray-950">
                 <Image
-                  className="w-full"
+                  className="inline-flex"
                   src={SplashImg}
-                  width={600}
-                  height={400}
+                  width={350}
+                  height={288}
                   alt="Splash"
                 />
                 <div className="p-8">
