@@ -29,7 +29,7 @@ export default function NewAnnouncementPage() {
         fileName = file.name;
       }
 
-      const docRef = await addDoc(collection(db, "announcements"), {
+      await addDoc(collection(db, "announcements"), {
         title,
         content,
         createdAt: serverTimestamp(),
@@ -37,7 +37,8 @@ export default function NewAnnouncementPage() {
         fileName,
       });
 
-      router.push(`/announcements/${docRef.id}`);
+      router.push('/announcements');
+      router.refresh();
     } catch (error) {
       console.error("Error creating announcement:", error);
     }

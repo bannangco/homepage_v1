@@ -1,6 +1,5 @@
 import { db } from '@/lib/firebase';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
-import Link from "next/link";
 import { Announcement } from '@/types/announcement';
 import { Metadata } from 'next';
 
@@ -9,16 +8,21 @@ export const metadata: Metadata = {
   description: '반낭코 공지사항',
 };
 
-export const dynamic = 'force-static';
+export const dynamic = 'error';
 
 async function getAnnouncements(): Promise<Announcement[]> {
-  const announcementsRef = collection(db, 'announcements');
-  const q = query(announcementsRef, orderBy('createdAt', 'desc'));
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  })) as Announcement[];
+  try {
+    const announcementsRef = collection(db, 'announcements');
+    const q = query(announcementsRef, orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Announcement[];
+  } catch (error) {
+    console.error('Error fetching announcements:', error);
+    return [];
+  }
 }
 
 export default async function AnnouncementsPage() {
@@ -30,37 +34,38 @@ export default async function AnnouncementsPage() {
         <h1 className="text-3xl font-semibold text-gray-200">공지사항</h1>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-8">
         {announcements.map((announcement) => (
-          <Link
+          <article 
             key={announcement.id}
-            href={`/announcements/${announcement.id}`}
-            className="block rounded-lg bg-gray-800/40 p-6 transition hover:bg-gray-800/60"
+            className="rounded-lg bg-gray-800/40 p-6 transition"
           >
-            <h3 className="mb-2 text-xl font-semibold text-gray-200">
-              {announcement.title}
-            </h3>
-            <p className="text-indigo-200/65">
-              {new Date(announcement.createdAt.toDate()).toLocaleDateString()}
-            </p>
-            {announcement.fileName && (
-              <p className="mt-2 text-sm text-indigo-200/65">
-                📎 {announcement.fileName}
+            <header className="mb-4">
+              <h2 className="mb-2 text-xl font-semibold text-gray-200">
+                {announcement.title}
+              </h2>
+              <p className="text-indigo-200/65">
+                {new Date(announcement.createdAt.toDate()).toLocaleDateString()}
               </p>
-            )}
-          </Link>
-        ))}
-      </div>
+            </header>
 
-      {/* Pagination */}
-      <div className="mt-8 flex justify-center gap-2">
-        <button className="btn bg-gray-800/40 px-4 py-2 text-gray-300 hover:bg-gray-800/60">
-          이전
-        </button>
-        <button className="btn bg-indigo-500 px-4 py-2 text-white">1</button>
-        <button className="btn bg-gray-800/40 px-4 py-2 text-gray-300 hover:bg-gray-800/60">
-          다음
-        </button>
+            <div className="prose prose-invert max-w-none mb-4">
+              {announcement.content}
+            </div>
+
+            {announcement.fileUrl && (
+              <div className="mt-4">
+                <a
+                  href={announcement.fileUrl}
+                  className="btn bg-gradient-to-t from-indigo-600 to-indigo-500 bg-[length:100%_100%] bg-[bottom] px-6 py-2 text-white shadow-[inset_0px_1px_0px_0px_theme(colors.white/.16)] hover:bg-[length:100%_150%]"
+                  download={announcement.fileName}
+                >
+                  {announcement.fileName} 다운로드
+                </a>
+              </div>
+            )}
+          </article>
+        ))}
       </div>
     </div>
   );
