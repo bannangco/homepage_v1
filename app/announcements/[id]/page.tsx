@@ -4,7 +4,7 @@ import { Announcement } from '@/types/announcement';
 import { Metadata } from 'next';
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export const dynamic = 'force-static';
@@ -27,7 +27,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const announcement = await getAnnouncement(params.id);
+  const { id } = await params;
+  const announcement = await getAnnouncement(id);
   return {
     title: `${announcement.title} - 반낭코`,
     description: announcement.content.substring(0, 160),
@@ -35,7 +36,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function AnnouncementPage({ params }: PageProps) {
-  const announcement = await getAnnouncement(params.id);
+  const { id } = await params;
+  const announcement = await getAnnouncement(id);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
@@ -67,4 +69,4 @@ export default async function AnnouncementPage({ params }: PageProps) {
       </article>
     </div>
   );
-} 
+}
