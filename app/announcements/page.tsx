@@ -8,7 +8,8 @@ export const metadata: Metadata = {
   description: '반낭코 공지사항',
 };
 
-export const dynamic = 'error';
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 async function getAnnouncements(): Promise<Announcement[]> {
   try {
@@ -35,37 +36,42 @@ export default async function AnnouncementsPage() {
       </div>
 
       <div className="space-y-8">
-        {announcements.map((announcement) => (
-          <article 
-            key={announcement.id}
-            className="rounded-lg bg-gray-800/40 p-6 transition"
-          >
-            <header className="mb-4">
-              <h2 className="mb-2 text-xl font-semibold text-gray-200">
-                {announcement.title}
-              </h2>
-              <p className="text-indigo-200/65">
-                {new Date(announcement.createdAt.toDate()).toLocaleDateString()}
-              </p>
-            </header>
+        {announcements.length === 0 ? (
+          <p className="text-center text-gray-400">아직 공지사항이 없습니다.</p>
+        ) : (
+          announcements.map((announcement) => (
+            <article 
+              key={announcement.id}
+              className="rounded-lg bg-gray-800/40 p-6 transition"
+            >
+              <header className="mb-4">
+                <h2 className="mb-2 text-xl font-semibold text-gray-200">
+                  {announcement.title}
+                </h2>
+                <p className="text-indigo-200/65">
+                  {new Date(announcement.createdAt?.toDate?.() || Date.now()).toLocaleDateString()}
+                </p>
+              </header>
 
-            <div className="prose prose-invert max-w-none mb-4">
-              {announcement.content}
-            </div>
-
-            {announcement.fileUrl && (
-              <div className="mt-4">
-                <a
-                  href={announcement.fileUrl}
-                  className="btn bg-gradient-to-t from-indigo-600 to-indigo-500 bg-[length:100%_100%] bg-[bottom] px-6 py-2 text-white shadow-[inset_0px_1px_0px_0px_theme(colors.white/.16)] hover:bg-[length:100%_150%]"
-                  download={announcement.fileName}
-                >
-                  {announcement.fileName} 다운로드
-                </a>
+              <div className="prose prose-invert max-w-none mb-4">
+                {announcement.content}
               </div>
-            )}
-          </article>
-        ))}
+
+              {announcement.fileUrl && (
+                <div className="mt-4">
+                  <a
+                    href={announcement.fileUrl}
+                    className="btn bg-gradient-to-t from-indigo-600 to-indigo-500 bg-[length:100%_100%] bg-[bottom] px-6 py-2 text-white shadow-[inset_0px_1px_0px_0px_theme(colors.white/.16)] hover:bg-[length:100%_150%]"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {announcement.fileName} 다운로드
+                  </a>
+                </div>
+              )}
+            </article>
+          ))
+        )}
       </div>
     </div>
   );

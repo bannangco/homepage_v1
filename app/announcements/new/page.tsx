@@ -12,21 +12,31 @@ export default function NewAnnouncementPage() {
   const [content, setContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !content) return;
 
     setIsSubmitting(true);
+    setError(null);
+    
     try {
       let fileUrl = null;
       let fileName = null;
 
       if (file) {
-        const storageRef = ref(storage, `announcements/${Date.now()}_${file.name}`);
-        await uploadBytes(storageRef, file);
-        fileUrl = await getDownloadURL(storageRef);
-        fileName = file.name;
+        try {
+          const storageRef = ref(storage, `announcements/${Date.now()}_${encodeURIComponent(file.name)}`);
+          const snapshot = await uploadBytes(storageRef, file);
+          fileUrl = await getDownloadURL(snapshot.ref);
+          fileName = file.name;
+        } catch (uploadError) {
+          console.error("Error uploading file:", uploadError);
+          setError("파일 업로드 중 오류가 발생했습니다. 다시 시도해 주세요.");
+          setIsSubmitting(false);
+          return;
+        }
       }
 
       await addDoc(collection(db, "announcements"), {
@@ -41,6 +51,7 @@ export default function NewAnnouncementPage() {
       router.refresh();
     } catch (error) {
       console.error("Error creating announcement:", error);
+      setError("공지사항 작성 중 오류가 발생했습니다. 다시 시도해 주세요.");
     }
     setIsSubmitting(false);
   };
@@ -48,6 +59,11 @@ export default function NewAnnouncementPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
       <h1 className="mb-8 text-3xl font-semibold text-gray-200">새 공지 작성</h1>
+      {error && (
+        <div className="mb-6 rounded-md bg-red-500/10 p-4 text-red-400">
+          {error}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label
