@@ -3,11 +3,12 @@ import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { Announcement } from '@/types/announcement';
 import { Metadata } from 'next';
 
-interface PageProps {
-  params: Promise<{ id: string }>;
-}
+type Props = {
+  params: { id: string };
+};
 
-export const dynamic = 'force-static';
+export const dynamic = 'error';
+export const dynamicParams = false;
 
 async function getAnnouncement(id: string): Promise<Announcement> {
   const docRef = doc(db, 'announcements', id);
@@ -18,26 +19,38 @@ async function getAnnouncement(id: string): Promise<Announcement> {
   return { id: docSnap.id, ...docSnap.data() } as Announcement;
 }
 
-export async function generateStaticParams() {
-  const announcementsRef = collection(db, 'announcements');
-  const snapshot = await getDocs(announcementsRef);
-  return snapshot.docs.map(doc => ({
-    id: doc.id,
-  }));
+// This function is required for static export
+export async function generateStaticParams(): Promise<Array<{ id: string }>> {
+  try {
+    const announcementsRef = collection(db, 'announcements');
+    const snapshot = await getDocs(announcementsRef);
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    // Return at least one static path to prevent build error
+    return [{ id: '1' }];
+  }
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { id } = await params;
-  const announcement = await getAnnouncement(id);
-  return {
-    title: `${announcement.title} - 반낭코`,
-    description: announcement.content.substring(0, 160),
-  };
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  try {
+    const announcement = await getAnnouncement(params.id);
+    return {
+      title: `${announcement.title} - 반낭코`,
+      description: announcement.content.substring(0, 160),
+    };
+  } catch (error) {
+    return {
+      title: '공지사항 - 반낭코',
+      description: '반낭코 공지사항',
+    };
+  }
 }
 
-export default async function AnnouncementPage({ params }: PageProps) {
-  const { id } = await params;
-  const announcement = await getAnnouncement(id);
+export default async function AnnouncementPage({ params }: Props) {
+  const announcement = await getAnnouncement(params.id);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
