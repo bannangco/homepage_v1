@@ -20,7 +20,7 @@ export default function Workflows() {
               반낭코의 서비스
             </h2>
             <p className="text-lg text-indigo-200/65">
-              반낭코는 사람과 사람을 연결하는 다양한 서비스를 제공합니다
+              반낭코는 사람들의 윤택한 문화생활을 위한 서비스를 제공합니다
             </p>
           </div>
 

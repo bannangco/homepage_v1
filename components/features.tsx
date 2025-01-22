@@ -76,10 +76,10 @@ export default function Features() {
                 <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10zm0-15c-2.757 0-5 2.243-5 5s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5zm0 8c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3-1.346 3-3 3z" />
               </svg>
               <h3 className="mb-2 font-nacelle text-xl font-semibold text-gray-200">
-                주소
+                목표
               </h3>
               <p className="text-indigo-200/65">
-                경기도 수원시 장안구 율전동 220-10
+                누구나 문화생활을 윤택하고 편리하게 누릴 수 있도록.
               </p>
             </article>
           </div>
@@ -92,34 +92,34 @@ export default function Features() {
             <div className="grid gap-8 sm:grid-cols-2">
               <div className="rounded-lg bg-gray-800/40 p-6">
                 <h4 className="mb-2 font-nacelle text-lg font-semibold text-gray-200">
-                  창의적인 문제 해결
+                  넓은 시각을 가진 사람
                 </h4>
                 <p className="text-indigo-200/65">
-                  새로운 시각으로 문제를 바라보고, 혁신적인 해결책을 제시할 수 있는 인재
+                  넓은 시각으로 문제의 근본을 바라보고, 혁신적인 해결책을 제시할 수 있는 인재
                 </p>
               </div>
               <div className="rounded-lg bg-gray-800/40 p-6">
                 <h4 className="mb-2 font-nacelle text-lg font-semibold text-gray-200">
-                  협업과 소통
+                  함께 일하기 즐거운 사람
                 </h4>
                 <p className="text-indigo-200/65">
-                  팀원들과 효과적으로 소통하고, 함께 성장할 수 있는 인재
+                  팀원들과 적극적으로 소통하고, 강한 정신력으로 긍정적인 에너지를 전파하는 인재
                 </p>
               </div>
               <div className="rounded-lg bg-gray-800/40 p-6">
                 <h4 className="mb-2 font-nacelle text-lg font-semibold text-gray-200">
-                  도전 정신
+                  도전에 지치지 않는 사람
                 </h4>
                 <p className="text-indigo-200/65">
-                  새로운 도전을 두려워하지 않고, 끊임없이 성장하려 노력하는 인재
+                  실패해도 새로운 도전을 두려워하지 않고, 끊임없이 도전하는 인재
                 </p>
               </div>
               <div className="rounded-lg bg-gray-800/40 p-6">
                 <h4 className="mb-2 font-nacelle text-lg font-semibold text-gray-200">
-                  사용자 중심
+                  성장하기 위해 노력하는 사람
                 </h4>
                 <p className="text-indigo-200/65">
-                  사용자의 니즈를 이해하고, 그들에게 가치를 전달할 수 있는 인재
+                  현재에 안주하지 않고 끊임없이 성장하려 노력하며, 본인 뿐 아니라 팀의 성장을 격려하는 인재
                 </p>
               </div>
             </div>

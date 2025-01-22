@@ -75,7 +75,7 @@ export default function Footer() {
               <li>
                 <a
                   className="text-indigo-200/65 transition hover:text-indigo-500"
-                  href="https://instagram.com/friending.so"
+                  href="https://instagram.com/friending_official"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -101,7 +101,7 @@ export default function Footer() {
               <li>
                 <a
                   className="text-indigo-200/65 transition hover:text-indigo-500"
-                  href="https://instagram.com/meetinggo.kr"
+                  href="https://instagram.com/meetinggo_official"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -11,7 +11,7 @@ export default function Announcements() {
               회사 공고
             </h2>
             <p className="text-lg text-indigo-200/65">
-              반낭코의 공식 공지사항과 회사 소식을 확인하세요
+              반낭코의 공식 공지사항을 확인하세요
             </p>
           </div>
 
