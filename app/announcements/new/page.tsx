@@ -27,18 +27,29 @@ export default function NewAnnouncementPage() {
 
       if (file) {
         try {
-          const storageRef = ref(storage, `announcements/${Date.now()}_${encodeURIComponent(file.name)}`);
+          // Create a clean filename
+          const cleanFileName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
+          const timestamp = Date.now();
+          const storageRef = ref(storage, `announcements/${timestamp}_${cleanFileName}`);
+          
+          // Upload the file
+          console.log('Uploading file:', cleanFileName);
           const snapshot = await uploadBytes(storageRef, file);
+          console.log('File uploaded successfully');
+          
+          // Get the download URL
           fileUrl = await getDownloadURL(snapshot.ref);
           fileName = file.name;
-        } catch (uploadError) {
+          console.log('File URL obtained:', fileUrl);
+        } catch (uploadError: any) {
           console.error("Error uploading file:", uploadError);
-          setError("파일 업로드 중 오류가 발생했습니다. 다시 시도해 주세요.");
+          setError(`파일 업로드 중 오류가 발생했습니다: ${uploadError.message || '알 수 없는 오류'}`);
           setIsSubmitting(false);
           return;
         }
       }
 
+      // Create the announcement
       await addDoc(collection(db, "announcements"), {
         title,
         content,
@@ -49,9 +60,9 @@ export default function NewAnnouncementPage() {
 
       router.push('/announcements');
       router.refresh();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating announcement:", error);
-      setError("공지사항 작성 중 오류가 발생했습니다. 다시 시도해 주세요.");
+      setError(`공지사항 작성 중 오류가 발생했습니다: ${error.message || '알 수 없는 오류'}`);
     }
     setIsSubmitting(false);
   };
@@ -107,9 +118,21 @@ export default function NewAnnouncementPage() {
           <input
             type="file"
             id="file"
-            onChange={(e) => setFile(e.target.files?.[0] || null)}
+            onChange={(e) => {
+              const selectedFile = e.target.files?.[0];
+              if (selectedFile && selectedFile.size > 10 * 1024 * 1024) {
+                setError('파일 크기는 10MB를 초과할 수 없습니다.');
+                return;
+              }
+              setFile(selectedFile || null);
+              setError(null);
+            }}
             className="form-input w-full"
+            accept="image/*,.pdf,.doc,.docx,.txt"
           />
+          <p className="mt-1 text-sm text-indigo-200/50">
+            최대 파일 크기: 10MB
+          </p>
         </div>
         <div className="flex justify-end gap-4">
           <button
