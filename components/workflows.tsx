@@ -52,7 +52,7 @@ export default function Workflows() {
                     </span>
                   </div>
                   <p className="text-indigo-200/65">
-                    AI 기반의 음악 추천 서비스. 당신의 취향에 맞는 음악을 발견하세요.
+                    AI operated metasearch website for Museums, Galleries, and Art in U.S.
                   </p>
                 </div>
               </div>
@@ -84,7 +84,7 @@ export default function Workflows() {
                     </span>
                   </div>
                   <p className="text-indigo-200/65">
-                    새로운 친구를 만나는 가장 안전한 방법. 관심사가 비슷한 친구들과 함께하세요.
+                    관심사 및 취미 기반, 20대 대학생들의 자유로운 소셜 모임.
                   </p>
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default function Workflows() {
                     </span>
                   </div>
                   <p className="text-indigo-200/65">
-                    대학생들을 위한 미팅 서비스. 즐거운 캠퍼스 라이프를 시작하세요.
+                    대학생들을 위한 가장 안전하고 편리한 미팅 어플리케이션.
                   </p>
                 </div>
               </div>

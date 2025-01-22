@@ -37,18 +37,18 @@ export default function PastServices() {
                     Splash
                   </h3>
                   <p className="mb-4 text-indigo-200/65">
-                    대학생들을 위한 소개팅 서비스. 2022년부터 2023년까지 운영되었으며, 
-                    수많은 대학생들의 사랑을 받았습니다.
+                    국내 수상레저 통합 예약관리 플랫폼. 2024년 4월부터 12월까지 운영되었으며, 
+                    많은 가족들에게 사랑을 받았습니다.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="rounded-full bg-gray-800/40 px-3 py-1 text-sm text-indigo-200/65">
-                      2022-2023
+                      2024
                     </span>
                     <span className="rounded-full bg-gray-800/40 px-3 py-1 text-sm text-indigo-200/65">
-                      소개팅
+                      수상레저
                     </span>
                     <span className="rounded-full bg-gray-800/40 px-3 py-1 text-sm text-indigo-200/65">
-                      대학생
+                      웹 플랫폼
                     </span>
                   </div>
                 </div>
