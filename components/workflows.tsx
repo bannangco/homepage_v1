@@ -1,7 +1,7 @@
 import Image from "next/image";
 import MusePickerImg from "@/public/images/workflow-01.png";
-import FriendingImg from "@/public/images/workflow-02.png";
-import MeetingGoImg from "@/public/images/workflow-03.png";
+import FriendingImg from "@/public/images/workflow-friending.png";
+import MeetingGoImg from "@/public/images/workflow-meetinggo.png";
 import Spotlight from "@/components/spotlight";
 
 export default function Workflows() {

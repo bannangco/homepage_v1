@@ -1,5 +1,5 @@
 import Image from "next/image";
-import SplashImg from "@/public/images/workflow-01.png"; // Replace with actual Splash image
+import SplashImg from "@/public/images/workflow-splash.png";
 
 export default function PastServices() {
   return (
