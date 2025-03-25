@@ -49,7 +49,7 @@ export default function Footer() {
               <li>
                 <a
                   className="text-indigo-200/65 transition hover:text-indigo-500"
-                  href="https://musepicker.com"
+                  href="https://www.musepicker.com"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
